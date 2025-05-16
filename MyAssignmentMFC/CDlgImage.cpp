@@ -60,12 +60,13 @@ void CDlgImage::OnPaint()
 	{
 		m_image.Draw(dc, 0, 0);
 
-		Gdiplus::SolidBrush dotBrush(Gdiplus::Color::Black);
-		for (auto& p : m_Points)
-		{
-			g.FillEllipse(&dotBrush, p.x - 20, p.y - 20, 20, 20);
-		}
+			Gdiplus::SolidBrush dotBrush(Gdiplus::Color::Black);
+	for (auto& p : m_Points)
+	{
+		g.FillEllipse(&dotBrush, p.x - m_nRadius, p.y - m_nRadius, m_nRadius, m_nRadius);
 	}
+	}
+
 }
 
 void CDlgImage::InitImage()

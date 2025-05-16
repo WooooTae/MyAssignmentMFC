@@ -52,6 +52,7 @@ END_MESSAGE_MAP()
 
 CMyAssignmentMFCDlg::CMyAssignmentMFCDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MYASSIGNMENTMFC_DIALOG, pParent)
+	, m_nEditValue(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -59,6 +60,7 @@ CMyAssignmentMFCDlg::CMyAssignmentMFCDlg(CWnd* pParent /*=nullptr*/)
 void CMyAssignmentMFCDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDIT_RADIUS, m_nEditValue);
 }
 
 BEGIN_MESSAGE_MAP(CMyAssignmentMFCDlg, CDialogEx)
@@ -66,6 +68,7 @@ BEGIN_MESSAGE_MAP(CMyAssignmentMFCDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_LBUTTONDOWN()
+	ON_BN_CLICKED(IDC_BTN_CONFIRM, &CMyAssignmentMFCDlg::OnBnClickedBtnConfirm)
 END_MESSAGE_MAP()
 
 
@@ -157,4 +160,12 @@ void CMyAssignmentMFCDlg::OnPaint()
 HCURSOR CMyAssignmentMFCDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+
+
+void CMyAssignmentMFCDlg::OnBnClickedBtnConfirm()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+	m_pDlgImage->m_nRadius = m_nEditValue;
 }
