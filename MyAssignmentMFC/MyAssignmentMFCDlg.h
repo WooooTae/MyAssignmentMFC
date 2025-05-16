@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include <vector>
+#include "CDlgImage.h"
 
 // CMyAssignmentMFCDlg 대화 상자
 class CMyAssignmentMFCDlg : public CDialogEx
@@ -11,6 +11,8 @@ class CMyAssignmentMFCDlg : public CDialogEx
 // 생성입니다.
 public:
 	CMyAssignmentMFCDlg(CWnd* pParent = nullptr);	// 표준 생성자입니다.
+
+	CDlgImage* m_pDlgImage;
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME

@@ -11,6 +11,7 @@
 #include "framework.h"
 
 #include<gdiplus.h>
+#include <afxcontrolbars.h>
 #pragma comment(lib, "gdiplus")
 using namespace Gdiplus;
 
