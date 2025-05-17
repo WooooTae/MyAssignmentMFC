@@ -61,13 +61,24 @@ void CDlgImage::OnPaint()
 		m_image.Draw(dc, 0, 0);
 
 			Gdiplus::SolidBrush dotBrush(Gdiplus::Color::Black);
-	for (auto& p : m_Points)
-	{
-		g.FillEllipse(&dotBrush, p.x - m_nRadius, p.y - m_nRadius, m_nRadius, m_nRadius);
-	}
-	}
+		for (auto& p : m_Points)
+		{
+			REAL r = static_cast<REAL>(m_nRadius);
+			g.FillEllipse(&dotBrush,p.x - r,p.y - r,2 * r,    2 * r);
+		}
 
-}
+		if (m_Points.size() == 3)
+		{
+			double cx, cy, nr;
+			if (PossibleCircle(m_Points[0], m_Points[1], m_Points[2], cx, cy, nr))
+			{
+				Gdiplus::Pen pen(Gdiplus::Color::Black, m_nThickness);
+				g.DrawEllipse(&pen, (Gdiplus::REAL)(cx - nr), (Gdiplus::REAL)(cy - nr),
+					(Gdiplus::REAL)(2 * nr), (Gdiplus::REAL)(2 * nr));
+			}
+		}
+		}
+	}
 
 void CDlgImage::InitImage()
 {
@@ -90,6 +101,28 @@ void CDlgImage::InitImage()
 	unsigned char *fm = (unsigned char*)m_image.GetBits();
 
 	memset(fm, 0xff, nWidth * nHeight);
+}
+
+bool CDlgImage::PossibleCircle(CPoint p1, CPoint p2, CPoint p3, double & cx, double & cy, double & nr)
+{
+	double x1 = p1.x, y1 = p1.y;
+	double x2 = p2.x, y2 = p2.y;
+	double x3 = p3.x, y3 = p3.y;
+
+	// 세 점이 일직선인지 확인 (행렬식 이용)
+	double det = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+	if (det == 0) return false;
+
+	//중심 계산
+	double A = x1 * (y2 - y3) - y1 * (x2 - x3) + x2 * y3 - x3 * y2;
+	double B = (x1*x1 + y1 * y1)*(y3 - y2) + (x2*x2 + y2 * y2)*(y1 - y3) + (x3*x3 + y3 * y3)*(y2 - y1);
+	double C = (x1*x1 + y1 * y1)*(x2 - x3) + (x2*x2 + y2 * y2)*(x3 - x1) + (x3*x3 + y3 * y3)*(x1 - x2);
+
+	cx = -B / (2 * A);
+	cy = -C / (2 * A);
+	nr = sqrt((cx - x1)*(cx - x1) + (cy - y1)*(cy - y1));
+
+	return true;
 }
 
 

@@ -13,6 +13,7 @@ public:
 
 	CImage m_image;
 	int m_nRadius;
+	int m_nThickness;
 	std::vector<CPoint> m_Points;
 
 // 대화 상자 데이터입니다.
@@ -30,6 +31,8 @@ public:
 
 private:
 	void InitImage();
+	bool PossibleCircle(CPoint p1, CPoint p2, CPoint p3, double &cx, double &cy, double &nr);
+
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
