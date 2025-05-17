@@ -1,0 +1,19 @@
+과제2-3) 직사각형 넓이 구하기
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(vector<vector<int>> dots) {
+    vector<int> nx,ny;
+    for (vector<int> a : dots)
+    {
+        nx.push_back(a[0]);
+        ny.push_back(a[1]);
+    }
+    
+    int width = *max_element(nx.begin(),nx.end()) - *min_element(nx.begin(),nx.end());
+    int height = *max_element(ny.begin(),ny.end()) - *min_element(ny.begin(),ny.end());
+    return width * height;
+}

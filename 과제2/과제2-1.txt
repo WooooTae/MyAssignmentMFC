@@ -1,0 +1,21 @@
+과제 2-1) 양꼬치
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n, int k) {
+    int answer = 0;
+    int sheepPrice = 12000;
+    int drinkPrice = 2000;
+    int freeCount = 0;
+    freeCount += n / 10;
+    answer += (sheepPrice * n);
+    
+    if (k - freeCount)
+    {
+        answer += drinkPrice * (k - freeCount);
+    }
+
+    return answer;
+}
