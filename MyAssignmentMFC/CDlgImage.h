@@ -33,6 +33,11 @@ private:
 	void InitImage();
 	bool PossibleCircle(CPoint p1, CPoint p2, CPoint p3, double &cx, double &cy, double &nr);
 
+	bool m_bIsDrag = false;
+	int m_nDragIndex = -1;
+
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };

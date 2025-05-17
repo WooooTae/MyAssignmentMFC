@@ -30,6 +30,8 @@ void CDlgImage::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgImage, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 
@@ -160,4 +162,47 @@ void CDlgImage::OnLButtonDown(UINT nFlags, CPoint point)
 		m_Points.push_back(point);
 		Invalidate();
 	}
+
+	for (int i = 0; i < m_Points.size(); i++)
+	{
+		// 클릭한 지점과 두점 사이의 거리
+		double distance = sqrt((point.x - m_Points[i].x) * (point.x - m_Points[i].x) + 
+			(point.y - m_Points[i].y) * (point.y - m_Points[i].y));
+
+		if (distance <= (double)m_nRadius)
+		{
+			m_bIsDrag = true;
+			m_nDragIndex = i;
+			SetCapture();
+			break;
+		}
+	}
+}
+
+
+void CDlgImage::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (m_bIsDrag && m_nDragIndex >= 0)
+	{
+		m_Points[m_nDragIndex] = point;
+
+		Invalidate();
+	}
+
+	CDialogEx::OnMouseMove(nFlags, point);
+}
+
+
+void CDlgImage::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (m_bIsDrag)
+	{
+		m_bIsDrag = false;
+		m_nDragIndex = -1;
+		ReleaseCapture();
+	}
+
+	CDialogEx::OnLButtonUp(nFlags, point);
 }
