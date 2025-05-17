@@ -216,7 +216,8 @@ void CDlgImage::ResetImage()
 	m_Points.clear();      
 	m_bIsDrag = false;     
 	m_nDragIndex = -1;
-	m_nRadius = 20;        
+	m_nRadius = 3;
+	m_nThickness = 2;
 	InitImage();           
 	Invalidate();
 }
