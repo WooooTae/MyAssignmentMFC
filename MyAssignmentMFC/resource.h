@@ -13,7 +13,6 @@
 #define IDC_EDIT_THICKNESS              1002
 #define IDC_BTN_RANDOM                  1003
 #define IDC_BTN_RESET                   1004
-#define IDC_STATIC_FIRST                1005
 
 // Next default values for new objects
 // 

@@ -37,4 +37,5 @@ public:
 	afx_msg void OnBnClickedBtnConfirm();
 	int m_nEditValue;
 	int m_nEditValue2;
+	afx_msg void OnBnClickedBtnReset();
 };

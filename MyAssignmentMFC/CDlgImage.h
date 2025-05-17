@@ -12,8 +12,8 @@ public:
 	virtual ~CDlgImage();
 
 	CImage m_image;
-	int m_nRadius;
-	int m_nThickness;
+	int m_nRadius = 3;
+	int m_nThickness = 2;
 	std::vector<CPoint> m_Points;
 
 // 대화 상자 데이터입니다.
@@ -40,4 +40,6 @@ public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+
+	void ResetImage();
 };

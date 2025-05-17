@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CMyAssignmentMFCDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_LBUTTONDOWN()
 	ON_BN_CLICKED(IDC_BTN_CONFIRM, &CMyAssignmentMFCDlg::OnBnClickedBtnConfirm)
+	ON_BN_CLICKED(IDC_BTN_RESET, &CMyAssignmentMFCDlg::OnBnClickedBtnReset)
 END_MESSAGE_MAP()
 
 
@@ -188,4 +189,17 @@ void CMyAssignmentMFCDlg::OnBnClickedBtnConfirm()
 	m_pDlgImage->m_nRadius = m_nEditValue;
 	m_pDlgImage->m_nThickness = m_nEditValue2;
 	m_pDlgImage->Invalidate();
+}
+
+
+void CMyAssignmentMFCDlg::OnBnClickedBtnReset()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (m_pDlgImage) 
+	{
+		m_pDlgImage->ResetImage(); // 자식 다이얼로그 초기화
+	}
+	m_nEditValue = 3;    // 반지름 입력 필드 초기화
+	m_nEditValue2 = 2;    // 두께 입력 필드 초기화
+	UpdateData(FALSE);    // UI에 반영
 }

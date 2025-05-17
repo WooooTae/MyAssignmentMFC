@@ -88,20 +88,6 @@ void CDlgImage::OnPaint()
 					(Gdiplus::REAL)(2 * nr), (Gdiplus::REAL)(2 * nr));
 			}
 		}
-
-		//Gdiplus::Font       font(L"Arial", 12);
-		//Gdiplus::PointF     pt(10, 10);   // X=10, Y=10 에서 시작
-
-		//wchar_t buf[64];
-		//for (size_t i = 0; i < m_Points.size(); ++i)
-		//{
-		//	swprintf(buf, _countof(buf), L"P%zu: (%d, %d)",
-		//		i + 1, m_Points[i].x, m_Points[i].y);
-
-		//	// 화면 상단부터 아래로 한 줄씩 내려가며
-		//	g.DrawString(buf, -1, &font, pt, &dotBrush);
-		//	pt.Y += 20;   // 다음 텍스트는 20px 아래에
-		//}
 	}
 }
 
@@ -111,6 +97,7 @@ void CDlgImage::InitImage()
 	int nHeight = 700;
 	int nBpp = 8;
 
+	m_image.Destroy();
 	m_image.Create(nWidth, -nHeight, nBpp);
 	if (nBpp == 8)
 	{
@@ -205,4 +192,14 @@ void CDlgImage::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 
 	CDialogEx::OnLButtonUp(nFlags, point);
+}
+
+void CDlgImage::ResetImage()
+{
+	m_Points.clear();      
+	m_bIsDrag = false;     
+	m_nDragIndex = -1;
+	m_nRadius = 20;        
+	InitImage();           
+	Invalidate();      
 }
