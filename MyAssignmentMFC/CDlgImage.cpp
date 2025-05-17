@@ -113,6 +113,15 @@ void CDlgImage::InitImage()
 	unsigned char *fm = (unsigned char*)m_image.GetBits();
 
 	memset(fm, 0xff, nWidth * nHeight);
+
+	if (m_Points.size() < 3)
+	{
+		GetParent()->PostMessage(WM_MY_CUSTOM_MSG, (WPARAM)FALSE, 0);
+	}
+	else
+	{
+		GetParent()->PostMessage(WM_MY_CUSTOM_MSG, (WPARAM)TRUE, 0);
+	}
 }
 
 bool CDlgImage::PossibleCircle(CPoint p1, CPoint p2, CPoint p3, double & cx, double & cy, double & nr)
@@ -137,7 +146,6 @@ bool CDlgImage::PossibleCircle(CPoint p1, CPoint p2, CPoint p3, double & cx, dou
 	return true;
 }
 
-
 void CDlgImage::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
@@ -148,6 +156,15 @@ void CDlgImage::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		m_Points.push_back(point);
 		Invalidate();
+	}
+
+	if (m_Points.size() < 3)
+	{
+		GetParent()->PostMessage(WM_MY_CUSTOM_MSG, (WPARAM)FALSE, 0);
+	}
+	else
+	{
+		GetParent()->PostMessage(WM_MY_CUSTOM_MSG, (WPARAM)TRUE, 0);
 	}
 
 	for (int i = 0; i < m_Points.size(); i++)
@@ -201,5 +218,22 @@ void CDlgImage::ResetImage()
 	m_nDragIndex = -1;
 	m_nRadius = 20;        
 	InitImage();           
-	Invalidate();      
+	Invalidate();
+}
+
+void CDlgImage::RandomPoints()
+{
+	if (m_Points.size() != 3)
+	{
+		return;
+	}
+
+	int nWidth = m_image.GetWidth();
+	int nHeight = m_image.GetHeight();
+
+	for (int i = 0; i < 3; i++)
+	{
+		m_Points[i].x = rand() % nWidth;
+		m_Points[i].y = rand() % nHeight;
+	}
 }

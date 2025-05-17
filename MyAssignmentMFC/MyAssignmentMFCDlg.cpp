@@ -72,6 +72,8 @@ BEGIN_MESSAGE_MAP(CMyAssignmentMFCDlg, CDialogEx)
 	ON_WM_LBUTTONDOWN()
 	ON_BN_CLICKED(IDC_BTN_CONFIRM, &CMyAssignmentMFCDlg::OnBnClickedBtnConfirm)
 	ON_BN_CLICKED(IDC_BTN_RESET, &CMyAssignmentMFCDlg::OnBnClickedBtnReset)
+	ON_BN_CLICKED(IDC_BTN_RANDOM, &CMyAssignmentMFCDlg::OnBnClickedBtnRandom)
+	ON_MESSAGE(WM_MY_CUSTOM_MSG,&CMyAssignmentMFCDlg::OnMyCustomMsg)
 END_MESSAGE_MAP()
 
 
@@ -128,6 +130,10 @@ BOOL CMyAssignmentMFCDlg::OnInitDialog()
 		subWidth, subHeight,
 		SWP_NOZORDER
 	);
+
+	srand(static_cast<unsigned int>(time(nullptr)));
+
+	GetDlgItem(IDC_BTN_RANDOM)->EnableWindow(FALSE);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -202,4 +208,38 @@ void CMyAssignmentMFCDlg::OnBnClickedBtnReset()
 	m_nEditValue = 3;    // 반지름 입력 필드 초기화
 	m_nEditValue2 = 2;    // 두께 입력 필드 초기화
 	UpdateData(FALSE);    // UI에 반영
+}
+
+
+void CMyAssignmentMFCDlg::OnBnClickedBtnRandom()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	GetDlgItem(IDC_BTN_RANDOM)->EnableWindow(FALSE); //중복 방지
+
+	AfxBeginThread(RandomMoveThread, this);
+}
+
+UINT CMyAssignmentMFCDlg::RandomMoveThread(LPVOID pParam)
+{
+	CMyAssignmentMFCDlg* pDlg = (CMyAssignmentMFCDlg*)pParam;
+	CDlgImage* pImgeDlg = pDlg->m_pDlgImage;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		pImgeDlg->RandomPoints();
+
+		pImgeDlg->Invalidate();
+
+		Sleep(500);
+	}
+
+	pDlg->GetDlgItem(IDC_BTN_RANDOM)->EnableWindow(TRUE);
+	return 0;
+}
+
+LRESULT CMyAssignmentMFCDlg::OnMyCustomMsg(WPARAM wParam, LPARAM lParam)
+{
+	BOOL bEnable = (BOOL)wParam;
+	GetDlgItem(IDC_BTN_RANDOM)->EnableWindow(bEnable);
+	return 0;
 }

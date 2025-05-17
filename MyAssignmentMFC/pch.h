@@ -15,4 +15,7 @@
 #pragma comment(lib, "gdiplus")
 using namespace Gdiplus;
 
+
+#define WM_MY_CUSTOM_MSG (WM_USER + 1) //메시지
+
 #endif //PCH_H

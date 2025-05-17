@@ -38,4 +38,7 @@ public:
 	int m_nEditValue;
 	int m_nEditValue2;
 	afx_msg void OnBnClickedBtnReset();
+	afx_msg void OnBnClickedBtnRandom();
+	static UINT RandomMoveThread(LPVOID pParam); // 쓰레드 함수
+	afx_msg LRESULT OnMyCustomMsg(WPARAM wParam, LPARAM lParam); //메시지 함수
 };
