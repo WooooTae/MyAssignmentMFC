@@ -60,11 +60,20 @@ void CDlgImage::OnPaint()
 	{
 		m_image.Draw(dc, 0, 0);
 
-			Gdiplus::SolidBrush dotBrush(Gdiplus::Color::Black);
-		for (auto& p : m_Points)
+		Gdiplus::SolidBrush dotBrush(Gdiplus::Color::Black);
+		float x = m_image.GetWidth() - 150.f;
+		float y = 30.f;
+		for (int i = 0; i < m_Points.size(); i++)
 		{
 			REAL r = static_cast<REAL>(m_nRadius);
-			g.FillEllipse(&dotBrush,p.x - r,p.y - r,2 * r,    2 * r);
+			g.FillEllipse(&dotBrush,m_Points[i].x - r,m_Points[i].y - r,2 * r, 2 * r);
+
+			WCHAR buf[32];
+			swprintf(buf, 32, L"(%d: %d, %d)", i + 1,m_Points[i].x, m_Points[i].y);
+
+			Gdiplus::PointF ptText((REAL)x, (REAL)y);
+			Gdiplus::Font       font(L"Arial", 12);
+			g.DrawString(buf,-1,&font,Gdiplus::PointF(x,y + i * 30.0f),&dotBrush);
 		}
 
 		if (m_Points.size() == 3)
@@ -77,13 +86,27 @@ void CDlgImage::OnPaint()
 					(Gdiplus::REAL)(2 * nr), (Gdiplus::REAL)(2 * nr));
 			}
 		}
-		}
+
+		//Gdiplus::Font       font(L"Arial", 12);
+		//Gdiplus::PointF     pt(10, 10);   // X=10, Y=10 에서 시작
+
+		//wchar_t buf[64];
+		//for (size_t i = 0; i < m_Points.size(); ++i)
+		//{
+		//	swprintf(buf, _countof(buf), L"P%zu: (%d, %d)",
+		//		i + 1, m_Points[i].x, m_Points[i].y);
+
+		//	// 화면 상단부터 아래로 한 줄씩 내려가며
+		//	g.DrawString(buf, -1, &font, pt, &dotBrush);
+		//	pt.Y += 20;   // 다음 텍스트는 20px 아래에
+		//}
 	}
+}
 
 void CDlgImage::InitImage()
 {
-	int nWidth = 640;
-	int nHeight = 480;
+	int nWidth = 1280;
+	int nHeight = 700;
 	int nBpp = 8;
 
 	m_image.Create(nWidth, -nHeight, nBpp);

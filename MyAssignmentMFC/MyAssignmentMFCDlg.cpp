@@ -110,7 +110,23 @@ BOOL CMyAssignmentMFCDlg::OnInitDialog()
 	m_pDlgImage = new CDlgImage;
 	m_pDlgImage->Create(IDD_CDlgImage, this);
 	m_pDlgImage->ShowWindow(SW_SHOW);
-	m_pDlgImage->MoveWindow(0, 0, 640, 480);
+	CRect clientRect;
+	GetClientRect(&clientRect);
+
+	const int subWidth = 1280;
+	const int subHeight = 700;
+
+	// 5) 가운데 위치 계산
+	int left = (clientRect.Width() - subWidth) / 2;
+	int top = (clientRect.Height() - subHeight) / 2 + 20;
+
+	// 6) 가운데 위치로 SetWindowPos
+	m_pDlgImage->SetWindowPos(
+		nullptr,
+		left, top,
+		subWidth, subHeight,
+		SWP_NOZORDER
+	);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
